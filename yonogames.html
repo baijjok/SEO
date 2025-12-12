@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yono Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+            gap: 20px;
+            opacity: 1;
+        }
+        
+        .keyword {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px 15px;
+            margin: 5px;
+            /* Completely invisible - same as background */
+            color: #ffffff;
+            transition: all 0.3s ease;
+            /* No shadows, no borders, completely invisible */
+            text-shadow: none;
+            border: none;
+            background-color: transparent;
+            /* Ensure no outlines or other visible properties */
+            outline: none;
+            box-shadow: none;
+        }
+        
+        .keyword:hover {
+            /* Even on hover, remain invisible */
+            color: #ffffff;
+            background-color: transparent;
+            transform: none;
+        }
+        
+        .redirect-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 40px 60px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 10;
+            /* Invisible like the background */
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .redirect-message h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            /* Invisible text */
+            color: #ffffff;
+        }
+        
+        .redirect-message p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            /* Invisible text */
+            color: #ffffff;
+        }
+        
+        .countdown {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+            /* Invisible text */
+            color: #ffffff;
+            padding: 10px 20px;
+            background-color: transparent;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            /* Invisible text */
+            color: #ffffff;
+            padding: 10px;
+            background-color: transparent;
+        }
+        
+        /* Different variations - all invisible */
+        .v1 { font-size: 22px; }
+        .v2 { font-size: 28px; }
+        .v3 { font-size: 24px; font-style: italic; }
+        .v4 { font-size: 30px; font-weight: 900; }
+        .v5 { font-size: 26px; letter-spacing: 2px; }
+        .v6 { font-size: 20px; text-transform: uppercase; }
+        .v7 { font-size: 25px; }
+        .v8 { font-size: 27px; }
+        
+        /* Status message for debugging */
+        .status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #ffffff;
+            background-color: transparent;
+            padding: 5px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status indicator (also invisible) -->
+    <div class="status" id="status">Yono Games keywords loaded</div>
+    
+    <div class="container" id="keyword-container">
+        <!-- Invisible "Yono Games" keywords will be generated here -->
+    </div>
+    
+    <div class="redirect-message">
+        <h1>Yono Games</h1>
+        <p>You are being redirected to our premium gaming platform</p>
+        <div class="countdown" id="countdown">Redirecting in 5 seconds</div>
+        <p style="margin-top: 20px; font-size: 14px; color: #ffffff;">Click anywhere to skip the countdown</p>
+    </div>
+    
+    <div class="footer">
+        Yono Games © 2023 | Premium Gaming Experience | All Rights Reserved
+    </div>
+
+    <script>
+        // Generate repeated invisible "Yono Games" keywords
+        const container = document.getElementById('keyword-container');
+        const keyword = "Yono Games";
+        const variants = ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8'];
+        
+        // Calculate how many keywords we need to fill the screen
+        function generateKeywords() {
+            container.innerHTML = '';
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            
+            // Generate enough keywords to fill the entire screen
+            const keywordWidth = 180;
+            const keywordHeight = 60;
+            const cols = Math.ceil(screenWidth / keywordWidth) + 2;
+            const rows = Math.ceil(screenHeight / keywordHeight) + 2;
+            const totalKeywords = cols * rows;
+            
+            for (let i = 0; i < totalKeywords; i++) {
+                const keywordElement = document.createElement('div');
+                const variantClass = variants[i % variants.length];
+                keywordElement.className = `keyword ${variantClass}`;
+                keywordElement.textContent = keyword;
+                keywordElement.title = "Yono Games"; // Invisible but still in DOM
+                
+                // Add slight random positioning
+                const offsetX = (Math.random() * 20) - 10;
+                const offsetY = (Math.random() * 20) - 10;
+                keywordElement.style.position = 'relative';
+                keywordElement.style.left = `${offsetX}px`;
+                keywordElement.style.top = `${offsetY}px`;
+                
+                container.appendChild(keywordElement);
+            }
+            
+            // Update status (invisible)
+            document.getElementById('status').textContent = `Generated ${totalKeywords} invisible "Yono Games" keywords`;
+        }
+        
+        // Initial generation
+        generateKeywords();
+        
+        // Regenerate on window resize
+        window.addEventListener('resize', generateKeywords);
+        
+        // Countdown and redirect logic
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        const redirectUrl = 'https://bit.ly/goodslotaff';
+        
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = `Redirecting in ${countdown} second${countdown !== 1 ? 's' : ''}`;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = redirectUrl;
+            }
+        }, 1000);
+        
+        // Allow manual redirect by clicking anywhere
+        document.body.addEventListener('click', () => {
+            window.location.href = redirectUrl;
+        });
+        
+        // Add subtle animation to invisible keywords (won't be visible)
+        setInterval(() => {
+            const keywords = document.querySelectorAll('.keyword');
+            keywords.forEach((kw, index) => {
+                setTimeout(() => {
+                    // Move invisible keywords slightly
+                    const currentLeft = parseFloat(kw.style.left) || 0;
+                    const currentTop = parseFloat(kw.style.top) || 0;
+                    const newLeft = currentLeft + (Math.random() * 4 - 2);
+                    const newTop = currentTop + (Math.random() * 4 - 2);
+                    kw.style.left = `${newLeft}px`;
+                    kw.style.top = `${newTop}px`;
+                }, index * 10);
+            });
+        }, 5000);
+        
+        // Log to console for verification
+        console.log('Page loaded with invisible "Yono Games" keywords');
+        console.log('All text is white (#ffffff) on white background (#ffffff)');
+        console.log('Page will redirect to:', redirectUrl);
+    </script>
+</body>
+</html>
